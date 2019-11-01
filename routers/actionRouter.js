@@ -11,12 +11,22 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({ error: "Failed to get actions" }))
 })
 
+
 router.post('/', (req, res) => {
     const newAction = req.body;
-    actionDb.insert(newAction)
-    .then(actionAdded => {
-        res.status(201).json(actionAdded)
+    const projectId = req.body.project_id;
+    actionDb.get(projectId)
+    .then(actionFound => {
+        if (actionFound) {
+            actionDb.insert(newAction)
+            .then(actionAdded => {
+                res.status(201).json(actionAdded)
+            })
+        } else {
+            res.status(400).json({ error: 'Can\'t add action to a project that doesn\'t exist' })
+        }
     })
+    
     .catch(err => res.status(500).json({ error: 'Failed to add new action' }))
 })
 

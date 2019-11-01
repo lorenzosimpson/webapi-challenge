@@ -9,6 +9,13 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Failed to get projects' }))
 })
 
+router.get('/:id/actions', (req, res) => {
+    const id = req.params.id;
+    projectDb.getProjectActions(id)
+    .then(projectActions => res.status(200).json(projectActions))
+    .catch(err => res.status(500).json({ message: `Failed to get actions for project ${id}`}))
+})
+
 router.post('/', (req, res) => {
     const newProject = req.body;
     projectDb.insert(newProject)
