@@ -26,13 +26,26 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+    I learned about express.json() which parses the body of a request into something that can be read. Without this, the body of a post/put request will be undefined
+
+    I learned that you can separate files according to resources and use routes to better organize file structure and have one file do one thing per resource.
+
+
 - [ ] Describe Middleware?
+
+    Middleware is software that intruduces additional functionality to existing code, usually in the form of functions.
 
 - [ ] Describe a Resource?
 
+    A resource is an item within the user experience. These are usually nouns. For example, users, channels, posts, etc.
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+    A status code and a message.
+
 - [ ] How can we partition our application into sub-applications?
+
+    Routing - we can separate files according to what resource they handle (users, posts, etc)
 
 ## Project Setup
 
