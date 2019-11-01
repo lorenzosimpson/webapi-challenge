@@ -1,5 +1,6 @@
 const express = require('express');
 const projectDb = require('../data/helpers/projectModel');
+const validateProject = require('../middleware/validateProject')
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get('/:id/actions', (req, res) => {
     .catch(err => res.status(500).json({ message: `Failed to get actions for project ${id}`}))
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateProject, (req, res) => {
     const newProject = req.body;
     projectDb.insert(newProject)
     .then(addedProject => res.status(201).json(addedProject))
