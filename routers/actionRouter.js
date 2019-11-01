@@ -20,4 +20,14 @@ router.post('/', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Failed to add new action' }))
 })
 
+router.put('/:id', (req, res) => {
+    const id = req.params.id;
+    const toUpdate = req.body;
+    actionDb.update(id, toUpdate)
+    .then(updated => {
+        res.status(200).json(updated)
+    })
+    .catch(err => res.status(500).json({ error: "Failed to update action" }))
+})
+
 module.exports = router;
