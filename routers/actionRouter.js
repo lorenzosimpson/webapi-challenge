@@ -11,4 +11,13 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({ error: "Failed to get actions" }))
 })
 
+router.post('/', (req, res) => {
+    const newAction = req.body;
+    actionDb.insert(newAction)
+    .then(actionAdded => {
+        res.status(201).json(actionAdded)
+    })
+    .catch(err => res.status(500).json({ error: 'Failed to add new action' }))
+})
+
 module.exports = router;
