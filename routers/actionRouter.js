@@ -1,5 +1,6 @@
 const express = require('express');
 const actionDb = require('../data/helpers/actionModel');
+const validateAction = require('../middleware/validateAction');
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json({ error: "Failed to get actions" }))
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateAction, (req, res) => {
     const newAction = req.body;
     const projectId = req.body.project_id;
     actionDb.get(projectId)
@@ -27,12 +28,31 @@ router.post('/', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Failed to add new action' }))
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validateAction, (req, res) => {
     const id = req.params.id;
+    const project_id = req.body.project_id;
     const toUpdate = req.body;
-    actionDb.update(id, toUpdate)
-    .then(updated => res.status(200).json(updated))
-    .catch(err => res.status(500).json({ error: "Failed to update action" }))
+    actionDb.get(id)
+    .then(action => {
+        if (action) {
+            if (action.project_id === project_id) {
+                actionDb.update(id, toUpdate)
+                .then(updated => {
+                    if (updated) {
+                        res.status(200).json({ message: `Successfully updated action ${id} on project ${project_id}`})
+                    } else {
+                        res.status(500).json({ error: "Failed to update action" })
+                    }
+                })
+                .catch(err => console.log(err))
+            } else {
+                res.status(404).json({ error: 'Failed: Action does not belong to this project id'})
+            }
+        } else {
+            res.status(404).json({ error: 'Action not found'})
+        }   
+    })
+    .catch(err => res.status(500).json({ error: 'Failed to find action to update'}))
 })
 
 router.delete('/:id', (req, res) => {
