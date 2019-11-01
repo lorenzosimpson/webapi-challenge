@@ -30,4 +30,11 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: "Failed to update action" }))
 })
 
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    actionDb.remove(id)
+    .then(deleted => res.status(200).json({ message: `Deleted ${deleted} action`}))
+    .catch(err => res.status(500).json({ error: 'Failed to delete action'}))
+})
+
 module.exports = router;
