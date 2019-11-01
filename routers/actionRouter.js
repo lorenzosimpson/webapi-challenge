@@ -21,7 +21,7 @@ router.post('/', validateAction, (req, res) => {
                 res.status(201).json(actionAdded)
             })
         } else {
-            res.status(400).json({ error: 'Can\'t add action to a project that doesn\'t exist' })
+            res.status(404).json({ error: 'Can\'t add action to a project that doesn\'t exist' })
         }
     })
     
