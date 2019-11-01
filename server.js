@@ -16,9 +16,6 @@ server.get('/api', (req, res) => {
     res.send("Server up and running!")
 })
 
-// function cors (req, res, next) {
-//     res.json({ msg: 'Using CORS'})
-// }
 
 
 module.exports = server;
